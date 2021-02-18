@@ -32,6 +32,10 @@ Aplikasi mobile banking yang memudahkan kehidupan anda sehari-hari. Aplikasi ini
 | Home Screen | ![](https://res.cloudinary.com/devloops7/image/upload/v1612405860/z-wallet/Screenshot_1612400578_roadiq.png) | Halaman Home menampilkan balance user (Saldo) dilain hal dapat menampilakn data transaksi serta shortcut untuk ke menu transfer serta ke notification |
 | Profile Screen | ![](https://res.cloudinary.com/devloops7/image/upload/v1612405861/z-wallet/Screenshot_1612400698_xkvzga.png) | Profile disini user dapat mengubah data pribadi seperti nama, nomor telepon, pin, dll |
 
+## Related Project
+
+[`Z-Wallet-restAPI`](https://github.com/ariefw96/Z-Wallet-RESTAPI)
+
 #### Author
 
 - [Ananda Muhammad Muthaqin](https://github.com/handa26)
