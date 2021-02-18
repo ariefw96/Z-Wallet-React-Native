@@ -26,7 +26,7 @@ const PersonalInformation = ({ navigation }) => {
   const [userData, setUserData] = useState({});
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-
+  const [textBtn, setTextBtn] = useState('Save')
   const config = {
     headers: {
       'x-access-token': 'bearer ' + token,
@@ -34,6 +34,7 @@ const PersonalInformation = ({ navigation }) => {
   };
 
   const changeFirstname = () => {
+    setTextBtn('Please Wait')
     const body = {
       firstname: firstName
     }
@@ -47,6 +48,7 @@ const PersonalInformation = ({ navigation }) => {
   }
 
   const changeLastName = () => {
+    setTextBtn('Please Wait')
     const body = {
       lastname: lastName
     }
@@ -85,7 +87,7 @@ const PersonalInformation = ({ navigation }) => {
           <TouchableOpacity
             style={{ marginTop: 20 }}
             onPress={() => {
-              navigation.goBack();
+              navigation.replace('Profile')
             }}>
             <Icon name="arrow-left" color="white" size={30} />
           </TouchableOpacity>
@@ -108,23 +110,30 @@ const PersonalInformation = ({ navigation }) => {
             We got your personal information from the sign up proccess. If you
             want to make changes on your information, contact our support.
           </Text>
-          <TouchableOpacity
-            onPress={() => actionSheetRef.current?.setModalVisible()}>
-            <View style={styles.list}>
-              <Text style={styles.listTitle}>First Name</Text>
-              <Text style={styles.subTitle}>
-                {userData !== undefined ? userData.firstname : ''}
+          <View style={styles.list}>
+            <Text style={styles.listTitle}>First Name</Text>
+            <Text style={styles.subTitle}>
+              {userData !== undefined ? userData.firstname : ''}
+            </Text>
+            <Text
+              style={styles.manage}
+              onPress={() => actionSheetRef.current?.setModalVisible()}
+            >
+              Change
               </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => actionSheetRef2.current?.setModalVisible()}>
-            <View style={styles.list}>
-              <Text style={styles.listTitle}>Last Name</Text>
-              <Text style={styles.subTitle}>
-                {userData !== undefined ? userData.lastname : ''}
+          </View>
+          <View style={styles.list}>
+            <Text style={styles.listTitle}>Last Name</Text>
+            <Text style={styles.subTitle}>
+              {userData !== undefined ? userData.lastname : ''}
+            </Text>
+            <Text
+              style={styles.manage}
+              onPress={() => actionSheetRef2.current?.setModalVisible()}
+            >
+              Change
               </Text>
-            </View>
-          </TouchableOpacity>
+          </View>
           <View style={styles.list}>
             <Text style={styles.listTitle}>Verifed E-mail</Text>
             <Text style={styles.subTitle}>
@@ -172,7 +181,7 @@ const PersonalInformation = ({ navigation }) => {
               onPress={changeFirstname}
             >
               <Text style={{ color: '#fff', fontSize: 18, marginTop: 10 }}>
-                Save
+                {textBtn}
               </Text>
             </TouchableOpacity>
           </View>
@@ -195,11 +204,12 @@ const PersonalInformation = ({ navigation }) => {
             />
           </View>
           <View style={{ paddingHorizontal: 10, marginBottom: 10 }}>
-            <TouchableOpacity style={styles.btnTransfer}>
+            <TouchableOpacity style={styles.btnTransfer}
+              onPress={changeLastName}
+            >
               <Text style={{ color: '#fff', fontSize: 18, marginTop: 10 }}
-                onPress={changeLastName}
               >
-                Save
+                {textBtn}
               </Text>
             </TouchableOpacity>
           </View>

@@ -81,7 +81,7 @@ const HomeScreen = ({ navigation, setDataUser }) => {
       },
     };
     axios
-      .get(`${url}/home/getAllInvoice?today=true`, config)
+      .get(`${url}/home/getAllInvoice`, config)
       .then(({ data }) => {
         setHistory(data.data);
       })
@@ -89,8 +89,10 @@ const HomeScreen = ({ navigation, setDataUser }) => {
   }
 
   useEffect(() => {
-    getBalance();
-    getHistory()
+    if (token != null) {
+      getBalance();
+      getHistory();
+    }
   }, [token]);
 
 
@@ -106,7 +108,8 @@ const HomeScreen = ({ navigation, setDataUser }) => {
       getBalance();
       getHistory()
     })
-  }, [])
+    return () => socket.off('tranferOut')
+  }, [socket])
 
   const refreshData = () => {
     getBalance();
@@ -122,9 +125,10 @@ const HomeScreen = ({ navigation, setDataUser }) => {
         channel,
       )
       getBalance();
-      getHistory()
+      getHistory();
     })
-  }, [])
+    return () => socket.off('tranferIn')
+  }, [socket])
 
   // Cek ketika history transaction kosong maka menampilkan pesan ini
   let emptyHistory;

@@ -30,8 +30,10 @@ const NewPIN = ({ navigation }) => {
   const id = useSelector((state) => state.authReducer.id);
   const name = useSelector((state) => state.myDataReducer.name)
   const tranferData = useSelector((state) => state.tranferReducer);
+  const [btnText, setBtnText] = useState('Confirm')
 
   const handleSubmit = () => {
+    setBtnText('Please Wait')
     const config = {
       headers: {
         'x-access-token': 'bearer ' + token,
@@ -107,7 +109,7 @@ const NewPIN = ({ navigation }) => {
           onPress={pin.length === 6 ? handleSubmit : null}
         >
           <Text style={pin.length === 6 ? styles.textActive : styles.textNon}>
-            Confirm
+            {btnText}
           </Text>
         </TouchableOpacity>
       </View>

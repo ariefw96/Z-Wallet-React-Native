@@ -3,7 +3,7 @@ import * as actionTypes from '../actionTypes';
 const INITIAL_STATE = {
   isLogin: false,
   token: null,
-  id: null,
+  id: 0,
   // pin: null,
   email: '',
   fullname: '',
@@ -25,7 +25,8 @@ const authReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLogin: false,
         token: null,
-        id: null,
+        email: '',
+        id: 0,
       };
     case actionTypes.SETEMAIL:
       return {

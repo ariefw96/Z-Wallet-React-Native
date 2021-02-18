@@ -97,7 +97,12 @@ const ProfileScreen = ({ navigation, logout }) => {
   const Logout = () => {
     axios.delete(API_URL + `/auth/logout/${token}`, config)
       .then(({ data }) => {
-        logout(token)
+        if(logout(token)){
+          navigation.reset({
+            index:0,
+            routes:[{name:'Login'}]
+          })
+        }
       }).catch(({ response }) => {
         console.log(response.data)
       })
@@ -161,7 +166,7 @@ const ProfileScreen = ({ navigation, logout }) => {
       <View style={{ padding: 20 }}>
         <TouchableOpacity
           style={styles.listOperation}
-          onPress={() => navigation.navigate('Personal')}>
+          onPress={() => navigation.replace('Personal')}>
           <Text style={styles.nameOperation}>Personal Information</Text>
           <Icon name="arrow-right" size={20} color="#4D4B57" />
         </TouchableOpacity>

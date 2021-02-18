@@ -123,11 +123,12 @@ const SuccessTransfer = ({ navigation }) => {
 
       <View style={{ marginBottom: 25 }}>
         <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Home')
+          }}
           style={styles.btnActive}
         >
-          <Text style={styles.textActive} onPress={() => {
-            navigation.navigate('Home')
-          }}>
+          <Text style={styles.textActive} >
             Back to home
           </Text>
         </TouchableOpacity>

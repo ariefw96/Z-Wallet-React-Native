@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {Input} from 'react-native-elements';
+import { Input } from 'react-native-elements';
 import {
   View,
   Text,
@@ -10,11 +10,12 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconUser from 'react-native-vector-icons/Feather';
+import { connect } from 'react-redux'
+import { setEmailForgot } from '../../../utils/redux/action/authAction'
 // import {API_URL} from '@env';
-import {API_URL} from "@env"
+import { API_URL } from "@env"
 
-const RegisterScreen = ({navigation}) => {
-  // const API_URL = 'http://192.168.100.179:8000';
+const RegisterScreen = ({ navigation, setEmailForgot }) => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [user, setUser] = useState('');
@@ -30,6 +31,7 @@ const RegisterScreen = ({navigation}) => {
   };
 
   const register = () => {
+    setErrMsg('')
     const emailFormat = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     const checkPass = /^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{8,}$/;
 
@@ -49,20 +51,22 @@ const RegisterScreen = ({navigation}) => {
         axios
           .post(API_URL + '/auth/signup', data)
           .then((res) => {
-            console.log('Regis Done', res);
+            setEmailForgot(email)
+            console.log('Regis Done', res.data);
             navigation.navigate('Active');
           })
           .catch((err) => {
             console.log(err.response.data);
-            console.log('error disokin', err);
           });
       }
     }
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Text style={styles.name}>Zwallet</Text>
+    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end' }}>
+      <View style={{ flex:1,flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={styles.name}>Zwallet</Text>
+      </View>
       <View style={styles.content}>
         <View style={styles.subContent}>
           <Text style={styles.header}>Sign Up</Text>
@@ -154,7 +158,7 @@ const RegisterScreen = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -163,7 +167,6 @@ const styles = StyleSheet.create({
     // marginBottom: 50,
     color: '#6379F4',
     alignSelf: 'center',
-    marginTop: 100,
     fontSize: 26,
     fontWeight: 'bold',
   },
@@ -176,7 +179,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderColor: '#EEEEEE',
     elevation: 1,
-    marginTop: 90,
   },
   subContent: {
     marginTop: 30,
@@ -233,4 +235,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterScreen;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setEmailForgot: (email) =>
+      dispatch(setEmailForgot(email)),
+  };
+};
+export default connect(null, mapDispatchToProps)(RegisterScreen);

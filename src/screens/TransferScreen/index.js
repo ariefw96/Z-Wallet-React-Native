@@ -10,16 +10,17 @@ import {
   StatusBar,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,
+  ToastAndroid
 } from 'react-native';
 import { Button, Image } from 'react-native-elements';
 import { TextInput } from 'react-native-gesture-handler';
-import {setTranfer} from './../../utils/redux/action/tranferAction'
+import { setTranfer } from './../../utils/redux/action/tranferAction'
 import pensil from '../../assets/images/pensil.png';
 import { useSelector, connect } from 'react-redux'
 import { API_URL } from '@env'
 
-const TransferScreen = ({navigation, setTranfer}) => {
+const TransferScreen = ({ navigation, setTranfer }) => {
   const [amount, setAmount] = useState(0)
   const [notes, setNotes] = useState('')
   const recipient = useSelector((state) => state.contactReducer)
@@ -29,88 +30,93 @@ const TransferScreen = ({navigation, setTranfer}) => {
   };
 
   const handleTranfer = () => {
-    const dataTranfer = {
-      receiver: recipient.id,
-      amount: amount,
-      notes: notes
+
+    if (myData.balance > amount) {
+      const dataTranfer = {
+        receiver: recipient.id,
+        amount: amount,
+        notes: notes
+      }
+      setTranfer(dataTranfer)
+      navigation.replace('Confirm')
+    } else {
+      ToastAndroid.show('Dana tidak mencukupi', ToastAndroid.SHORT, ToastAndroid.CENTER);
     }
-    setTranfer(dataTranfer)
-    navigation.replace('Confirm')
   }
 
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.container}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="#6379F4"
-        translucent={true}
-      />
-      <View style={styles.header}>
-        <View style={styles.cardVa}>
-          <View style={{ flexDirection: 'row' }}>
-            <Image source={{ uri: API_URL + recipient.image }} style={styles.profileImg} />
-            <View>
-              <Text
-                style={{
-                  marginTop: 25,
-                  marginLeft: 20,
-                  color: '#7A7886',
-                  fontSize: 14,
-                }}>
-                {recipient.name}
-              </Text>
-              <Text
-                style={{
-                  marginTop: 5,
-                  marginLeft: 20,
-                  fontWeight: '700',
-                  fontSize: 16,
-                }}>
-                {recipient.phone}
-              </Text>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="#6379F4"
+          translucent={true}
+        />
+        <View style={styles.header}>
+          <View style={styles.cardVa}>
+            <View style={{ flexDirection: 'row' }}>
+              <Image source={{ uri: API_URL + recipient.image }} style={styles.profileImg} />
+              <View>
+                <Text
+                  style={{
+                    marginTop: 25,
+                    marginLeft: 20,
+                    color: '#7A7886',
+                    fontSize: 14,
+                  }}>
+                  {recipient.name}
+                </Text>
+                <Text
+                  style={{
+                    marginTop: 5,
+                    marginLeft: 20,
+                    fontWeight: '700',
+                    fontSize: 16,
+                  }}>
+                  {recipient.phone}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-      <View>
-        <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-          <Text
-            style={{
-              fontSize: 32,
-              marginTop: 25,
-              fontWeight: '700'
-            }}
-          >Rp.</Text>
-          <TextInput
-            value={amount}
-            placeholder="0"
-            keyboardType={'phone-pad'}
-            placeholderTextColor="#B5BDCC"
-            style={styles.textInputTf}
-            onChangeText={(duit) => { setAmount(duit) }}
-          />
+        <View>
+          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+            <Text
+              style={{
+                fontSize: 32,
+                marginTop: 25,
+                fontWeight: '700'
+              }}
+            >Rp.</Text>
+            <TextInput
+              value={amount.toString()}
+              placeholder="0"
+              keyboardType={'phone-pad'}
+              placeholderTextColor="#B5BDCC"
+              style={styles.textInputTf}
+              onChangeText={(duit) => { setAmount(duit) }}
+            />
+          </View>
+          <Text style={{ color: '#7C7895', alignSelf: 'center', marginTop: 20 }}>
+            Rp. {toPrice(myData.balance)} Available
+        </Text>
         </View>
-        <Text style={{ color: '#7C7895', alignSelf: 'center', marginTop: 20 }}>
-          Rp. {toPrice(myData.balance)} Available
+        <KeyboardAvoidingView>
+          <View style={styles.noteInput}>
+            <Image source={pensil} style={{ width: 19, height: 19, top: 10 }} />
+            <TextInput style={{ marginLeft: 17 }} value={notes} placeholder="Add some notes" onChangeText={(text) => { setNotes(text) }} />
+          </View>
+        </KeyboardAvoidingView>
+        <View style={{ height: 1, width: windowWidth * 0.95, backgroundColor: '#A9A9A9', marginHorizontal: 10 }} />
+        <TouchableOpacity style={styles.btnTransfer}
+          onPress={handleTranfer}
+        >
+          <Text style={{ color: '#fff', fontSize: 18, marginTop: 10 }}>
+            Transfer
         </Text>
+        </TouchableOpacity>
       </View>
-      <KeyboardAvoidingView>
-        <View style={styles.noteInput}>
-        <Image source={pensil} style={{ width: 19, height: 19, top: 10 }} />
-        <TextInput style={{ marginLeft: 17 }} value={notes} placeholder="Add some notes" onChangeText={(text) => { setNotes(text) }} />
-      </View>
-      </KeyboardAvoidingView>
-      <View style={{ height: 1, width: windowWidth * 0.95, backgroundColor: '#A9A9A9', marginHorizontal: 10 }} />
-      <TouchableOpacity style={styles.btnTransfer}
-        onPress={myData.balance > amount ? handleTranfer : null}
-      >
-        <Text style={{ color: '#fff', fontSize: 18, marginTop: 10 }}>
-          Transfer
-        </Text>
-      </TouchableOpacity>
-    </View>
     </ScrollView>
   );
 };

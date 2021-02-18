@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,15 +8,15 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import {SearchBar, Image} from 'react-native-elements';
+import { SearchBar, Image } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {vw, vh, vmax, vmin} from 'react-native-expo-viewport-units';
-import {API_URL} from '@env';
-import {useSelector, connect} from 'react-redux';
-import {setReceiver} from '../../utils/redux/action/contactAction';
+import { vw, vh, vmax, vmin } from 'react-native-expo-viewport-units';
+import { API_URL } from '@env';
+import { useSelector, connect } from 'react-redux';
+import { setReceiver } from '../../utils/redux/action/contactAction';
 import axios from 'axios';
 
-const ContactList = ({navigation, setReceiver}) => {
+const ContactList = ({ navigation, setReceiver }) => {
   const [search, setSearch] = useState('');
   const [listContact, setContact] = useState([]);
   const token = useSelector((state) => state.authReducer.token);
@@ -30,10 +30,10 @@ const ContactList = ({navigation, setReceiver}) => {
     };
     axios
       .get(API_URL + `/tranfer/contactUser`, config)
-      .then(({data}) => {
+      .then(({ data }) => {
         setContact(data.data);
       })
-      .catch(({response}) => {
+      .catch(({ response }) => {
         console.log(response.data);
       });
   }, []);
@@ -46,10 +46,10 @@ const ContactList = ({navigation, setReceiver}) => {
     };
     axios
       .get(API_URL + `/tranfer/contactUser`, config)
-      .then(({data}) => {
+      .then(({ data }) => {
         setContact(data.data);
       })
-      .catch(({response}) => {
+      .catch(({ response }) => {
         console.log(response.data);
       });
   };
@@ -61,10 +61,10 @@ const ContactList = ({navigation, setReceiver}) => {
     };
     axios
       .get(API_URL + `/tranfer/search?name=` + search, config)
-      .then(({data}) => {
+      .then(({ data }) => {
         setContact(data.data);
       })
-      .catch(({response}) => {
+      .catch(({ response }) => {
         console.log(response.data);
         setContact([]);
       });
@@ -93,10 +93,10 @@ const ContactList = ({navigation, setReceiver}) => {
 
       {/* List contact */}
       <View style={styles.contactHeader}>
-        <Text style={{color: '#514F5B', fontSize: 20, fontWeight: '700'}}>
+        <Text style={{ color: '#514F5B', fontSize: 20, fontWeight: '700' }}>
           Contacts
         </Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text
             style={{
               color: '#514F5B',
@@ -121,25 +121,24 @@ const ContactList = ({navigation, setReceiver}) => {
       </View>
       {/* Contact card */}
       <SafeAreaView>
-        <ScrollView style={{height: vh(60)}}>
+        <ScrollView style={{ height: vh(60) }}>
           {listContact &&
-            listContact.map(({id, image, name, phone}) => {
+            listContact.map(({ id, image, name, phone }) => {
               let nameCard = {
                 id: id,
                 image: image,
                 name: name,
                 phone: phone,
               };
-              const isActive = idSelected == id;
               return (
                 <>
                   <View
                     style={{
-                      borderColor: isActive ? 'blue' : 'white',
+                      borderColor: 'white',
                       borderWidth: 2,
                       borderRadius: 10,
                       marginBottom: 15,
-                      marginHorizontal: vw(1),
+                      marginHorizontal: vw(2),
                       marginTop: 10,
                     }}
                     key={id}>
@@ -149,7 +148,7 @@ const ContactList = ({navigation, setReceiver}) => {
                       key={id}>
                       <View style={styles.cardWrapper} key={id}>
                         <Image
-                          source={{uri: API_URL + image, width: 52, height: 52}}
+                          source={{ uri: API_URL + image, width: 52, height: 52 }}
                           style={styles.profileImage}
                         />
                         <View style={styles.cardText}>

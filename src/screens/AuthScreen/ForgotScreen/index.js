@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,46 +8,48 @@ import {
   Touchable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Input} from 'react-native-elements';
+import { Input } from 'react-native-elements';
 import axios from 'axios';
 import { vw, vh, vmax, vmin } from 'react-native-expo-viewport-units'
 //redux ngeod
-import {connect} from 'react-redux'
-import {setEmailForgot} from '../../../utils/redux/action/authAction'
+import { connect } from 'react-redux'
+import { setEmailForgot } from '../../../utils/redux/action/authAction'
 import { API_URL } from '@env'
 
-const ForgotScreen = ({navigation, setEmailForgot}) => {
+const ForgotScreen = ({ navigation, setEmailForgot }) => {
   const [email, setEmail] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [Msg, setSuccesMsg] = useState('');
 
-  const HandleSubmit = () =>{
-    if(email != ''){
+  const HandleSubmit = () => {
+    if (email != '') {
       const emailFormat = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-      if(emailFormat.test(email)){
+      if (emailFormat.test(email)) {
         const dataEmail = {
-          email:email
+          email: email
         }
-        axios.post(API_URL+`/auth/forgot`, dataEmail)
-        .then(({data}) =>{
-          setSuccesMsg(data.message)
-          setEmailForgot(email)
-          navigation.navigate('Otp')
+        axios.post(API_URL + `/auth/forgot`, dataEmail)
+          .then(({ data }) => {
+            setSuccesMsg(data.message)
+            setEmailForgot(email)
+            navigation.navigate('Otp')
 
-        }).catch(({response}) =>{
-          setErrMsg(response.data.message)
-        })
-      }else{
+          }).catch(({ response }) => {
+            setErrMsg(response.data.message)
+          })
+      } else {
         setErrMsg('Format email salah!')
       }
-    }else{
+    } else {
       setErrMsg('Email tidak boleh kosong!')
     }
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Text style={styles.name}>Zwallet</Text>
+    <View style={{flex:1, flexDirection:'column', justifyContent:'flex-end'}}>
+      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={styles.name}>Zwallet</Text>
+      </View>
       <View style={styles.content}>
         <View style={styles.subContent}>
           <Text style={styles.header}>Reset Password</Text>
@@ -69,15 +71,15 @@ const ForgotScreen = ({navigation, setEmailForgot}) => {
             onChangeText={(text) => setEmail(text)}
           />
         </View>
-        <Text style={{color:'red'}}>{errMsg}</Text>
-        <Text style={{color:'green'}}>{Msg}</Text>
-        <View style={{marginTop: vh(13) }}>
+        <Text style={{ color: 'red' }}>{errMsg}</Text>
+        <Text style={{ color: 'green' }}>{Msg}</Text>
+        <View >
           <TouchableOpacity style={styles.btnActive} onPress={HandleSubmit}>
             <Text style={styles.textActive}>Confrim</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -86,7 +88,6 @@ const styles = StyleSheet.create({
     // marginBottom: 50,
     color: '#6379F4',
     alignSelf: 'center',
-    marginTop: 100,
     fontSize: 26,
     fontWeight: 'bold',
   },
@@ -99,7 +100,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderColor: '#EEEEEE',
     elevation: 1,
-    marginTop: 125,
   },
   subContent: {
     marginTop: 30,

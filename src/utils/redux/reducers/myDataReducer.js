@@ -5,7 +5,7 @@ const INITIAL_STATE = {
     image: '',
     name: '',
     phone: '',
-    balance:0
+    balance: 0
 
 };
 
@@ -18,8 +18,8 @@ const myData = (state = INITIAL_STATE, action) => {
                 id: action.payload.id,
                 image: action.payload.image,
                 name: action.payload.name,
-                phone: action.payload.phone,
-                balance:action.payload.balance
+                phone:action.payload.phone,
+                balance: action.payload.balance
             }
         default:
             return {

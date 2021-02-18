@@ -26,12 +26,14 @@ import axios from 'axios';
 const HistoryScreen = ({ navigation, route }) => {
   const actionSheetRef = createRef();
 
-  const [historyWeek, setHistoryWeek] = useState();
-  const [historyMonth, setHistoryMonth] = useState();
+  const [historyWeek, setHistoryWeek] = useState([]);
+  const [historyMonth, setHistoryMonth] = useState([]);
   const [selectedStartDate, setStartDate] = useState('')
   const [selectedEndDate, setEndDate] = useState('')
   const [tranferType, setType] = useState('')
   const [isFilterDate, setFiterDate] = useState(false)
+  const [selectedIn, setSelectedIn] = useState(false)
+  const [selectedOut, setSelectedOut] = useState(false)
   const toPrice = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
@@ -45,6 +47,8 @@ const HistoryScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
+    setSelectedOut(false)
+    setSelectedIn(false)
     setRefreshing(true);
     getDataWeek();
     getDataMonth();
@@ -114,16 +118,20 @@ const HistoryScreen = ({ navigation, route }) => {
   };
 
   const getDataIn = () => {
+    setSelectedOut(false)
     getDataWeekIn('in');
     getDataMonthIn('in');
     setType('- Incoming Tranfer')
+    setSelectedIn(true)
     setFiterDate(false)
   };
 
   const getDataOut = () => {
+    setSelectedIn(false)
     getDataWeekIn('out');
     getDataMonthIn('out');
     setType('- Outgoing Tranfer')
+    setSelectedOut(true)
     setFiterDate(false)
   }
   // GetDataWeek
@@ -142,6 +150,8 @@ const HistoryScreen = ({ navigation, route }) => {
   }
 
   const getDataRange = () => {
+    setSelectedOut(false)
+    setSelectedIn(false)
     const startDate = moment(selectedStartDate).format('YYYY-MM-DD')
     const endDate = moment(selectedEndDate).format('YYYY-MM-DD')
     axios.get(API_URL + `/home/getAllInvoice?from=${startDate}&to=${endDate}`, {
@@ -187,7 +197,7 @@ const HistoryScreen = ({ navigation, route }) => {
                 </Text>
               </View>
               {/* Card transaction */}
-              {historyWeek !== undefined
+              {historyWeek.length > 0
                 ? historyWeek.map((data) => (
                   <View style={styles.cardTransaction} key={data.id}>
                     <View style={styles.cardWrapper}>
@@ -238,7 +248,7 @@ const HistoryScreen = ({ navigation, route }) => {
                       )}
                   </View>
                 ))
-                : null}
+                : (<Text style={{ textAlign: 'center' }}>There are no tranfer this week.</Text>)}
             </View>
 
             <View>
@@ -255,7 +265,7 @@ const HistoryScreen = ({ navigation, route }) => {
                 </Text>
               </View>
               {/* Card transaction */}
-              {historyMonth !== undefined
+              {historyMonth.length > 0
                 ? historyMonth.map((data) => (
                   <View style={styles.cardTransaction} key={data.id}>
                     <View style={styles.cardWrapper}>
@@ -306,19 +316,19 @@ const HistoryScreen = ({ navigation, route }) => {
                       )}
                   </View>
                 ))
-                : null}
+                : (<Text style={{ textAlign: 'center' }}>There are no tranfer this month.</Text>)}
             </View>
           </View>
         </ScrollView>
       </View>
 
       <View style={styles.bottomSortings}>
-        <View style={styles.btnUpDown}>
+        <View style={selectedOut ? { ...styles.btnUpDown, borderWidth: 1, borderColor: 'red' } : styles.btnUpDown}>
           <TouchableOpacity onPress={getDataOut}>
             <Icon name="arrowup" color="#FF5B37" size={30} />
           </TouchableOpacity>
         </View>
-        <View style={styles.btnUpDown}>
+        <View style={selectedIn ? { ...styles.btnUpDown, borderWidth: 1, borderColor: 'red' } : styles.btnUpDown}>
           <TouchableOpacity onPress={getDataIn}>
             <Icon name="arrowdown" color="#6379F4" size={30} />
           </TouchableOpacity>
@@ -336,7 +346,7 @@ const HistoryScreen = ({ navigation, route }) => {
 
       {/* Action Sheet */}
       <ActionSheet ref={actionSheetRef}>
-        <View>
+        <View style={{ paddingBottom: 20 }}>
           <CalendarPicker
             startFromMonday={true}
             allowRangeSelection={true}
@@ -345,19 +355,21 @@ const HistoryScreen = ({ navigation, route }) => {
             selectedDayTextColor="#FFFFFF"
             onDateChange={onDateChange}
           />
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: vw(20) }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: vw(8), marginTop: 5, borderTopWidth: 0.5, borderColor: 'gray' }}>
             <TouchableOpacity
-              onPress={getDataRange}
+              style={{ borderWidth: 1, borderColor: 'gray', width: vw(30), paddingVertical: 10, borderRadius: 15, backgroundColor: '#d9534f', marginTop: 5 }}
+              onPress={() => actionSheetRef.current?.hide()}
             >
-              <Text>
-                Apply
+              <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
+                DISCARD
             </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => actionSheetRef.current?.hide()}
+              style={{ borderWidth: 1, borderColor: 'gray', width: vw(30), paddingVertical: 10, borderRadius: 15, backgroundColor: '#428bca', marginTop: 5 }}
+              onPress={getDataRange}
             >
-              <Text>
-                Discard
+              <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
+                APPLY
             </Text>
             </TouchableOpacity>
           </View>

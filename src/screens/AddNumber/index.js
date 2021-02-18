@@ -6,11 +6,13 @@ import {
   ScrollView,
   StyleSheet,
   StatusBar,
-  ToastAndroid
+  ToastAndroid,
+  TextInput
 } from 'react-native';
+import { vw, vh } from 'react-native-expo-viewport-units'
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Input } from 'react-native-elements';
+import { Input, } from 'react-native-elements';
 // import ChangePassword from '../ChangePassword';
 import axios from 'axios';
 import { } from 'react-redux'
@@ -32,21 +34,22 @@ const AddNumber = ({ navigation }) => {
   const handleSubmit = () => {
     const testNumber = /^(^\+62)(\d{3,4}-?){2}\d{3,4}$/g
     if (!empty()) {
-      if (testNumber.test(number)) {
+      const newNumber = '+62' + number
+      if (testNumber.test(newNumber) || newNumber.length < 16 || newNumber.length > 14) {
         const config = {
           headers: {
             'x-access-token': 'bearer ' + token,
           },
         };
         const updatePhone = {
-          phone: number
+          phone: newNumber
         }
         axios.patch(API_URL + `/user/changeInfo`, updatePhone, config)
           .then(({ data }) => {
             ToastAndroid.show(data.message, ToastAndroid.SHORT);
-            navigation.replace('Profile')
+            navigation.pop()
           }).catch(({ response }) => {
-            if(response.status == 401){
+            if (response.status == 401) {
               ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
             }
             console.log(response.data)
@@ -101,19 +104,30 @@ const AddNumber = ({ navigation }) => {
             </Text>
             <Text style={styles.subHeader}>another user</Text>
           </View>
-          <View style={styles.form}>
-            <Input
-              placeholder="+62"
-              keyboardAppearance="dark"
-              leftIcon={
-                <Icon
-                  name="phone"
-                  size={24}
-                  color={number === '' ? '#878787' : '#6379F4'}
+          <View style={{ alignItems: 'center', width: '100%', marginTop:50 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Icon
+                style={{ marginRight: 5, marginTop: 15 }}
+                name="phone"
+                size={24}
+                color={number === '' ? '#878787' : '#6379F4'}
+              />
+              <View
+                style={{ borderBottomWidth: 1, borderColor: 'gray', flexDirection: 'row' }}
+
+              >
+                <Text
+                  style={{ fontSize: 24, marginTop: 10 }}
+                >
+                  +62 -
+            </Text>
+                <TextInput
+                  keyboardType='phone-pad'
+                  style={{ width: vw(40), fontSize: 24 }}
+                  onChangeText={(text) => setNumber(text)}
                 />
-              }
-              onChangeText={(text) => setNumber(text)}
-            />
+              </View>
+            </View>
           </View>
           <Text style={{ color: 'red', fontWeight: 'bold' }}>{errMsg}</Text>
         </View>
@@ -171,12 +185,6 @@ const styles = StyleSheet.create({
   subHeader: {
     fontSize: 16,
     color: '#878787',
-  },
-  form: {
-    marginTop: 20,
-    alignItems: 'center',
-    marginBottom: 20,
-    paddingHorizontal: 15,
   },
   btn: {
     width: '90%',

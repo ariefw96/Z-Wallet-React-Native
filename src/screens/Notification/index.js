@@ -56,45 +56,53 @@ const Notification = ({ props }) => {
           Today
         </Text>
         {
-          today && today.map(({ id, name, notes, type, amount, index }) => {
-            if (type == 'out') {
-              return (
-                <>
-                  <TouchableOpacity style={styles.notifCard} >
-                    <View style={styles.cardWrapper} key={index}>
-                      <Icon name="arrow-up" size={25} color="#FF5B37" />
-                      <View style={styles.cardText}>
-                        <Text style={{ fontSize: 14, color: '#7A7A7A', fontWeight: '400' }}>
-                          {notes}
-                        </Text>
-                        <Text style={{ fontSize: 18, color: '#43484F', fontWeight: '700' }}>
-                          Rp. {toPrice(amount)}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </>
-              )
-            } else {
-              return (
-                <>
-                  <TouchableOpacity style={styles.notifCard}>
-                    <View style={styles.cardWrapper}>
-                      <Icon name="arrow-down" size={25} color="#4CEDB3" />
-                      <View style={styles.cardText}>
-                        <Text style={{ fontSize: 14, color: '#7A7A7A', fontWeight: '400' }}>
-                          {notes} from {name}
-                        </Text>
-                        <Text style={{ fontSize: 18, color: '#43484F', fontWeight: '700' }}>
-                          Rp. {toPrice(amount)}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </>
-              )
-            }
-          })
+          today.length > 0 ? (
+            <>
+              {
+                today && today.map(({ id, name, notes, type, amount, index }) => {
+                  if (type == 'out') {
+                    return (
+                      <>
+                        <TouchableOpacity style={styles.notifCard} >
+                          <View style={styles.cardWrapper} key={index}>
+                            <Icon name="arrow-up" size={25} color="#FF5B37" />
+                            <View style={styles.cardText}>
+                              <Text style={{ fontSize: 14, color: '#7A7A7A', fontWeight: '400' }}>
+                                {notes}
+                              </Text>
+                              <Text style={{ fontSize: 18, color: '#43484F', fontWeight: '700' }}>
+                                Rp. {toPrice(amount)}
+                              </Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      </>
+                    )
+                  } else {
+                    return (
+                      <>
+                        <TouchableOpacity style={styles.notifCard}>
+                          <View style={styles.cardWrapper}>
+                            <Icon name="arrow-down" size={25} color="#4CEDB3" />
+                            <View style={styles.cardText}>
+                              <Text style={{ fontSize: 14, color: '#7A7A7A', fontWeight: '400' }}>
+                                {notes} from {name}
+                              </Text>
+                              <Text style={{ fontSize: 18, color: '#43484F', fontWeight: '700' }}>
+                                Rp. {toPrice(amount)}
+                              </Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      </>
+                    )
+                  }
+                })
+              }
+            </>
+          ) : (
+              <Text style={{ textAlign: 'center' }}>No notification today.</Text>
+            )
         }
       </View>
 
@@ -104,45 +112,54 @@ const Notification = ({ props }) => {
           This Week
         </Text>
         {
-          thisweek && thisweek.map(({ id, name, notes, type, amount }) => {
-            if (type == 'out') {
-              return (
-                <>
-                  <TouchableOpacity style={styles.notifCard}>
-                    <View style={styles.cardWrapper}>
-                      <Icon name="arrow-up" size={25} color="#FF5B37" />
-                      <View style={styles.cardText}>
-                        <Text style={{ fontSize: 14, color: '#7A7A7A', fontWeight: '400' }}>
-                          {notes}
-                        </Text>
-                        <Text style={{ fontSize: 18, color: '#43484F', fontWeight: '700' }}>
-                          Rp. {toPrice(amount)}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </>
-              )
-            } else {
-              return (
-                <>
-                  <TouchableOpacity style={styles.notifCard}>
-                    <View style={styles.cardWrapper}>
-                      <Icon name="arrow-down" size={25} color="#4CEDB3" />
-                      <View style={styles.cardText}>
-                        <Text style={{ fontSize: 14, color: '#7A7A7A', fontWeight: '400' }}>
-                          {notes} dari {name}
-                        </Text>
-                        <Text style={{ fontSize: 18, color: '#43484F', fontWeight: '700' }}>
-                          Rp. {toPrice(amount)}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </>
-              )
-            }
-          })
+          thisweek.length < 1 ?
+            (
+              <Text style={{ textAlign: 'center' }}>No notification this week.</Text>
+            ) : (
+              <>
+                {
+                  thisweek && thisweek.map(({ id, name, notes, type, amount }) => {
+                    if (type == 'out') {
+                      return (
+                        <>
+                          <TouchableOpacity style={styles.notifCard}>
+                            <View style={styles.cardWrapper}>
+                              <Icon name="arrow-up" size={25} color="#FF5B37" />
+                              <View style={styles.cardText}>
+                                <Text style={{ fontSize: 14, color: '#7A7A7A', fontWeight: '400' }}>
+                                  {notes}
+                                </Text>
+                                <Text style={{ fontSize: 18, color: '#43484F', fontWeight: '700' }}>
+                                  Rp. {toPrice(amount)}
+                                </Text>
+                              </View>
+                            </View>
+                          </TouchableOpacity>
+                        </>
+                      )
+                    } else {
+                      return (
+                        <>
+                          <TouchableOpacity style={styles.notifCard}>
+                            <View style={styles.cardWrapper}>
+                              <Icon name="arrow-down" size={25} color="#4CEDB3" />
+                              <View style={styles.cardText}>
+                                <Text style={{ fontSize: 14, color: '#7A7A7A', fontWeight: '400' }}>
+                                  {notes} dari {name}
+                                </Text>
+                                <Text style={{ fontSize: 18, color: '#43484F', fontWeight: '700' }}>
+                                  Rp. {toPrice(amount)}
+                                </Text>
+                              </View>
+                            </View>
+                          </TouchableOpacity>
+                        </>
+                      )
+                    }
+                  })
+                }
+              </>
+            )
         }
       </View>
     </ScrollView >

@@ -12,10 +12,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconUser from 'react-native-vector-icons/Feather';
 import { useSelector } from 'react-redux'
 
-// import {API_URL} from '@env';
+import { API_URL } from '@env';
 
 const ActiveScreen = ({ navigation }) => {
-    const API_URL = 'https://12a223fb9884.ngrok.io'
     const [otp, setOtp] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
@@ -34,13 +33,13 @@ const ActiveScreen = ({ navigation }) => {
                 setErrMsg('fill otp');
             } else {
                 const dataOTP = {
-                    email:email,
-                    otp:otp
+                    email: email,
+                    otp: otp
                 }
                 axios
                     .post(API_URL + `/auth/findOTP`, dataOTP)
                     .then((res) => {
-                        console.log('email aktive', res);
+                        console.log('email aktive', res.data);
                         navigation.navigate('Reset');
                     })
                     .catch((err) => {
@@ -52,8 +51,10 @@ const ActiveScreen = ({ navigation }) => {
     };
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={styles.name}>Zwallet</Text>
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end' }}>
+            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={styles.name}>Zwallet</Text>
+            </View>
             <View style={styles.content}>
                 <View style={styles.subContent}>
                     <Text style={styles.header}>OTP</Text>
@@ -67,8 +68,8 @@ const ActiveScreen = ({ navigation }) => {
                     <Input
                         placeholder="Enter your OTP"
                         leftIcon={
-                            <IconUser
-                                name="user"
+                            <Icon
+                                name="lock-outline"
                                 size={24}
                                 color={otp === '' ? '#878787' : '#6379F4'}
                             />
@@ -84,12 +85,10 @@ const ActiveScreen = ({ navigation }) => {
                             activate();
                         }
                     }}>
-                    <Text style={empty() ? styles.textNon : styles.textActive}>
-                        Submit
-          </Text>
+                    <Text style={empty() ? styles.textNon : styles.textActive}>Submit</Text>
                 </TouchableOpacity>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 
@@ -98,7 +97,6 @@ const styles = StyleSheet.create({
         // marginBottom: 50,
         color: '#6379F4',
         alignSelf: 'center',
-        marginTop: 150,
         fontSize: 26,
         fontWeight: 'bold',
     },
@@ -111,8 +109,6 @@ const styles = StyleSheet.create({
         borderTopWidth: 0.5,
         borderColor: '#EEEEEE',
         elevation: 1,
-        marginTop: 135,
-        // height: '100%',
     },
     subContent: {
         marginTop: 30,

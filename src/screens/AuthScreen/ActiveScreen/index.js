@@ -10,10 +10,12 @@ import {
 import {Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconUser from 'react-native-vector-icons/Feather';
+import {useSelector} from 'react-redux'
 import {API_URL} from '@env';
 
 const ActiveScreen = ({navigation}) => {
-  const [email, setEmail] = useState('');
+  const emailRedux = useSelector((state) => state.authReducer.email);
+  const [email, setEmail] = useState(emailRedux);
   const [otp, setOtp] = useState('');
   const [errMsg, setErrMsg] = useState('');
 

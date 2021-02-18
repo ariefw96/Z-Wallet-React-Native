@@ -85,13 +85,10 @@ const DetailTranfer = ({ navigation, route }) => {
                                 <Text style={styles.textStatus}>Transfer Success</Text>
                             </View>
                             <View style={styles.content}>
-                                <View style={styles.subContent}>
-                                    <View style={styles.amountStyle}>
-                                        <Text style={styles.title}>Amount</Text>
-                                        <Text style={styles.item}>Rp. {toPrice(detail.amount)}</Text>
-                                    </View>
+                                <View style={styles.amountStyle}>
+                                    <Text style={styles.title}>Amount</Text>
+                                    <Text style={styles.item}>Rp. {toPrice(detail.amount)}</Text>
                                 </View>
-
                                 <View style={styles.subContent}>
                                     <View style={styles.content2}>
                                         <Text style={styles.title}>Date</Text>
@@ -138,7 +135,6 @@ const DetailTranfer = ({ navigation, route }) => {
                                         </View>
                                     </View>
                                 </View>
-
                             </View>
                         </ScrollView>
                     </>
@@ -194,8 +190,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
     },
     content: {
-        paddingTop: 20,
-        padding: 20,
+        padding: vw(5),
     },
     title: {
         fontSize: 16,
@@ -211,10 +206,9 @@ const styles = StyleSheet.create({
     },
     subContent: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
     },
     amountStyle: {
-        width: '96%',
         backgroundColor: 'white',
         height: 70,
         borderRadius: 10,
@@ -222,7 +216,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     content2: {
-        width: '40%',
+        width: '45%',
         backgroundColor: 'white',
         height: 70,
         borderRadius: 10,
@@ -230,13 +224,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     content3: {
-        width: '40%',
+        width: '45%',
         backgroundColor: 'white',
         height: 70,
         borderRadius: 10,
         padding: 10,
         marginTop: 20,
-        marginLeft: 50,
     },
     subList: {
         marginTop: 20,
@@ -254,14 +247,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 20,
         fontWeight: 'bold',
-        marginBottom:5
+        marginBottom: 5
     },
     receiver: {
         backgroundColor: 'white',
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        marginLeft: -3,
         borderRadius: 10,
         borderWidth: 0.2,
         borderColor: '#EAECEE',

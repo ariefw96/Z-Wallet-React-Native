@@ -9,10 +9,10 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-import {Button} from 'react-native-elements';
-import {ScrollView} from 'react-native-gesture-handler';
+import { Button } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const data = [
   {
@@ -49,7 +49,7 @@ const data = [
   },
 ];
 
-const TopupScreen = ({navigation: {navigate}}) => {
+const TopupScreen = ({ navigation: { navigate } }) => {
   const myPhone = useSelector((state) => state.myDataReducer.phone);
   return (
     <View style={styles.container}>
@@ -64,27 +64,29 @@ const TopupScreen = ({navigation: {navigate}}) => {
             icon={<Icon name="plus" size={35} color="#6379F4" />}
             buttonStyle={styles.btn}
           />
-          <Text
-            style={{
-              marginTop: 30,
-              marginLeft: 10,
-              color: '#7A7886',
-              fontSize: 14,
-            }}>
-            Virtual Account Number
+          <View>
+            <Text
+              style={{
+                marginTop: 30,
+                marginLeft: 10,
+                color: '#7A7886',
+                fontSize: 14,
+              }}>
+              Virtual Account Number
           </Text>
-          <Text
-            style={{
-              marginTop: 55,
-              marginLeft: '-43%',
-              fontWeight: '700',
-              fontSize: 16,
-            }}>
-            2389-{myPhone.toString().replace('+62','0')}
-          </Text>
+            <Text
+              style={{
+                marginTop:5,
+                marginLeft:10,
+                fontWeight: '700',
+                fontSize: 16,
+              }}>
+              2389-{myPhone.toString().replace('+62', '0')}
+            </Text>
+          </View>
         </View>
       </View>
-      <ScrollView style={{marginBottom:20}}>
+      <ScrollView style={{ marginBottom: 20 }}>
         <Text
           style={{
             marginTop: 30,
@@ -105,17 +107,17 @@ const TopupScreen = ({navigation: {navigate}}) => {
                     fontSize: 20,
                     fontWeight: 'bold',
                   }}>
-                  {x.number+'. '}
+                  {x.number + '. '}
                 </Text>
                 <Text
                   style={{
-                    marginLeft:5,
+                    marginLeft: 5,
                     width: windowWidth * 0.67,
                     marginTop: 35,
                     position: 'absolute',
                     left: 50,
                     fontSize: 16,
-                    fontWeight:'bold'
+                    fontWeight: 'bold'
                   }}>
                   {x.value}
                 </Text>
@@ -123,7 +125,7 @@ const TopupScreen = ({navigation: {navigate}}) => {
             </View>
           );
         })}
-        <View style={{marginBottom:20}}></View>
+        <View style={{ marginBottom: 20 }}></View>
       </ScrollView>
     </View>
   );

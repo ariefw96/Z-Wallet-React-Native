@@ -10,6 +10,7 @@ import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux'
 import axios from 'axios'
+import { API_URL } from '@env';
 
 const ResetPassScreen = ({ navigation }) => {
   const [pass, setPass] = useState('');
@@ -17,6 +18,7 @@ const ResetPassScreen = ({ navigation }) => {
   const [show, setShow] = useState(true);
   const [show2, setShow2] = useState(true);
   const [errMsg, setErrMsg] = useState('')
+  const [btnText, setBtnText] = useState('Reset')
 
   const email = useSelector((state) => state.authReducer.email);
 
@@ -30,7 +32,6 @@ const ResetPassScreen = ({ navigation }) => {
 
   const handleSubmit = () => {
     const checkPass = /^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{8,}$/;
-    const API_URL = 'https://12a223fb9884.ngrok.io'
     if (!empty()) {
       if (pass == pass2) {
         if (checkPass.test(pass)) {
@@ -38,6 +39,7 @@ const ResetPassScreen = ({ navigation }) => {
             email: email,
             password: pass
           }
+          setBtnText('Please Wait')
           axios.patch(API_URL + `/auth/reset`, dataUpdate)
             .then((res) => {
               console.log(res.data)
@@ -45,6 +47,7 @@ const ResetPassScreen = ({ navigation }) => {
             })
             .catch((err) => {
               console.log(err.response.data)
+              setBtnText('Reset')
             });
         } else {
           setErrMsg(
@@ -60,8 +63,10 @@ const ResetPassScreen = ({ navigation }) => {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Text style={styles.name}>Zwallet</Text>
+    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end' }}>
+      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={styles.name}>Zwallet</Text>
+      </View>
       <View style={styles.content}>
         <View style={styles.subContent}>
           <Text style={styles.header}>Reset Password</Text>
@@ -125,12 +130,12 @@ const ResetPassScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.btnActive}
             onPress={handleSubmit}>
-            <Text style={styles.textActive}>Reset</Text>
+            <Text style={styles.textActive}>{btnText}</Text>
           </TouchableOpacity>
         </View>
 
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -139,7 +144,6 @@ const styles = StyleSheet.create({
     // marginBottom: 50,
     color: '#6379F4',
     alignSelf: 'center',
-    marginTop: 100,
     fontSize: 26,
     fontWeight: 'bold',
   },
@@ -152,7 +156,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderColor: '#EEEEEE',
     elevation: 1,
-    marginTop: 125,
   },
   subContent: {
     marginTop: 30,
