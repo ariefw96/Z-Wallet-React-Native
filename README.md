@@ -1,6 +1,6 @@
 # Z-Wallet-React-Native
 
-Aplikasi mobile banking yang memudahkan kehidupan anda sehari-hari. Aplikasi ini biasa kita kenal sebagai aplikai e-wallet / dompet digital. memiliki fitur utama yaitu realtime notification dan kita bisa saling tranfer serta top-up di outlet z-wallet terdekat.
+Aplikasi mobile banking yang memudahkan kehidupan anda sehari-hari. Aplikasi ini biasa kita kenal sebagai aplikai e-wallet / dompet digital. Memiliki fitur utama yaitu realtime notification dan kita bisa saling tranfer serta top-up di outlet z-wallet terdekat.
 
 ### Fitur :
 
@@ -34,7 +34,7 @@ Aplikasi mobile banking yang memudahkan kehidupan anda sehari-hari. Aplikasi ini
 
 ## Related Project
 
-[`Z-Wallet-restAPI`](https://github.com/ariefw96/Z-Wallet-RESTAPI)
+Backend Project => [`Z-Wallet-restAPI`](https://github.com/ariefw96/Z-Wallet-RESTAPI)
 
 #### Author
 
