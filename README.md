@@ -48,4 +48,3 @@ Backend Project => [`Z-Wallet-restAPI`](https://github.com/ariefw96/Z-Wallet-RES
   
 - [Dhiya Reksa Kusumojati Brameswanto](https://github.com/dhiyo7)
 
-Dan berikut backend untuk aplikasi Z-Wallet [disini](https://github.com/GasPoll-Team/Z-Wallet-RESTAPI)
